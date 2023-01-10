@@ -1,3 +1,6 @@
+# Vault Hunters 3rd. Edition Auto-Heal With potions
+# How to use: Install JsMacros mc mod and install the jep extension
+
 if __name__ == "":
     from JsMacrosAC import *
 
