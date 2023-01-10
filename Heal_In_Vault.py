@@ -13,6 +13,9 @@ new_range = range(8, 17)  # Range in 9 top slots in inventory URL: https://wiki.
 
 def throw_potion():
     Chat.log("In throw")
+    get_in = Player.getCurrentPlayerInput().yaw
+    Player.getPlayer().lookAt(get_in, 64)
+    Player.getPlayer().interact()
 
 
 def check_potion():
@@ -29,9 +32,8 @@ def check_potion():
             check_potion()  # Else repeat check_potion()
 
 
-if health_of_player_int < 19:
+if health_of_player_int < 8:
     Chat.log(health_of_player_int)
-    # Player.openInventory().openGui()
     inv = Player.openInventory()
     Player.openInventory()
     for i in new_range:
