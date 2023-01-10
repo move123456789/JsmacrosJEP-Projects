@@ -4,9 +4,9 @@ if __name__ == "":
 health_of_player_float = event.health
 health_of_player_int = int(health_of_player_float)
 
+new_range = range(8, 17)  # Range in 9 top slots in inventory URL: https://wiki.vg/images/1/13/Inventory-slots.png
+# Python starts with 0, so we need to use ^8 instead of 9
 
-max_slots = 9  # Slot in Backpack
-max_slots_range = range(-1, max_slots)
 
 def throw_potion():
     Chat.log("In throw")
@@ -15,14 +15,15 @@ def throw_potion():
 def check_potion():
     Player.openInventory()
     if Player.openInventory().getSlot(42).getItemId() == "minecraft:splash_potion":
-        Chat.log("Potion in Hotbar 6")
-        Player.openInventory().setSelectedHotbarSlotIndex(6)
-        Player.openInventory().closeAndDrop()
-        Time.sleep(100)
-        check = Player.getPlayer().getMainHand().getItemId()
+        Chat.log("Potion in Hotbar 6")  # ^^^^ Checks if potion is in correct hot bar slot
+        Player.openInventory().setSelectedHotbarSlotIndex(6)  # Selects HotbarSlot 6
+        Player.openInventory().closeAndDrop()  # Closes inv
+        Time.sleep(100)  # Waits 100ms / 0.1s
+        check = Player.getPlayer().getMainHand().getItemId()  # Checks if potion HotbarSlot 6 is selected
         if check == "minecraft:splash_potion":
-            throw_potion()
-
+            throw_potion()  # Continues in Thor function
+        else:
+            check_potion()  # Else repeat check_potion()
 
 
 if health_of_player_int < 19:
@@ -30,7 +31,7 @@ if health_of_player_int < 19:
     # Player.openInventory().openGui()
     inv = Player.openInventory()
     Player.openInventory()
-    for i in max_slots_range:
+    for i in new_range:
         i = i + 1
         item = inv.getSlot(i).getItemId()
         if item == "minecraft:splash_potion":
@@ -40,4 +41,3 @@ if health_of_player_int < 19:
             inv.closeAndDrop()
             break
     check_potion()
-
