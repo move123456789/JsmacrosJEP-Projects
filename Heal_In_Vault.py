@@ -27,7 +27,7 @@ def check_potion():
         Time.sleep(100)  # Waits 100ms / 0.1s
         check = Player.getPlayer().getMainHand().getItemId()  # Checks if potion HotbarSlot 6 is selected
         if check == "minecraft:splash_potion":
-            throw_potion()  # Continues in Thor function
+            throw_potion()  # Continues in Thorw function
         else:
             check_potion()  # Else repeat check_potion()
 
