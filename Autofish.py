@@ -1,20 +1,20 @@
-if __name__ == "": from JsMacrosAC import *
+if __name__ == "":
+    from JsMacrosAC import *
 
-fish_sound = "minecraft:entity.player.splash"
+# Take Fishing Rod into Hand
+# Add this script as Event Sound
+# Thow rod first time and you are set
 
-
-def on_sound(event):
-    if event.sound == "minecraft:entity.player.splash":
-        Chat.log("Wrapper")
-
-
-JsMacros.waitForEvent("Sound", JavaWrapper.methodToJava(on_sound))
+fish = "minecraft:entity.fishing_bobber.splash"
 
 
-# def on_lyd(event):
-#     if event.sound == fish_sound:
-#         Chat.log("on_lyd")
-#     else:
-#         Chat.log("In def else")
-#
-# JsMacros.waitForEvent("Sound", JavaWrapper.methodToJava(lambda event: event.sound == fish_sound and Chat.log("on_lyd")).overrideThread())
+if event.sound == fish:
+    Player.getPlayer().interact()
+    Chat.log("[Fish]")
+    Time.sleep(500)
+    Player.getPlayer().interact()
+
+
+
+
+
