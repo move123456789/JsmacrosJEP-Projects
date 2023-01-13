@@ -1,5 +1,6 @@
-# Vault Hunters 3rd. Edition Auto-Heal With potions
+# Auto-Heal With potions
 # How to use: Install JsMacros mc mod and install the jep extension
+# To enable --> set Event as Damage
 
 if __name__ == "":
     from JsMacrosAC import *
@@ -14,8 +15,12 @@ new_range = range(8, 17)  # Range in 9 top slots in inventory URL: https://wiki.
 def throw_potion():
     Chat.log("In throw")
     get_in = Player.getCurrentPlayerInput().yaw
+    get_in_pitch = Player.getCurrentPlayerInput().pitch
     Player.getPlayer().lookAt(get_in, 64)
     Player.getPlayer().interact()
+    Time.sleep(200)
+    Player.getPlayer().lookAt(get_in, get_in_pitch)
+    Player.openInventory().setSelectedHotbarSlotIndex(item_in_hand)
 
 
 def check_potion():
@@ -27,22 +32,23 @@ def check_potion():
         Time.sleep(100)  # Waits 100ms / 0.1s
         check = Player.getPlayer().getMainHand().getItemId()  # Checks if potion HotbarSlot 6 is selected
         if check == "minecraft:splash_potion":
-            throw_potion()  # Continues in Thorw function
+            throw_potion()  # Continues in Throw function
         else:
+            Time.sleep(50)
             check_potion()  # Else repeat check_potion()
 
 
 if health_of_player_int < 8:
     Chat.log(health_of_player_int)
     inv = Player.openInventory()
-    Player.openInventory()
+    item_in_hand = inv.getSelectedHotbarSlotIndex()
     for i in new_range:
         i = i + 1
         item = inv.getSlot(i).getItemId()
         if item == "minecraft:splash_potion":
             Chat.log("Potion Found, moving")
             inv.swapHotbar(i, 6)
-            JsMacros.waitForEvent("HeldItemChange").context.releaseLock()
+            # JsMacros.waitForEvent("HeldItemChange").context.releaseLock()
             inv.closeAndDrop()
             break
     check_potion()
