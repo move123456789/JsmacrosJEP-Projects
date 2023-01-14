@@ -1,3 +1,9 @@
+# This Script Creates Lists For Usage in Steel_Loot_GUI, Steel_Loot, Whitelist
+# Put the items you want to add to a list in a Chest and then press the button
+# Manually Copy the list and paste in inside "white_lst = [HERE]" inside the scripts
+
+# You need to change the file and create the text file, or it will not work
+
 if __name__ == "":
     from JsMacrosAC import *
 
