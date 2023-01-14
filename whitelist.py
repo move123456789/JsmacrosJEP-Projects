@@ -1,4 +1,5 @@
 # WIP - Will be used for making list from a Clickable GUI
+# You can create white_list with items_to_list.py
 if __name__ == "":
     from JsMacrosAC import *
 import ast
@@ -12,7 +13,7 @@ active_lst = []
 btn_clicked_one = 0
 btn_clicked_two = 0
 
-screen = Hud.createScreen("Test", False)
+screen = Hud.createScreen("Whitelist WIP", False)
 
 
 def close(m1, m2):
@@ -107,14 +108,6 @@ def screen_init(screen):
     screen.addButton(20, 95, 100, 20, "Load Whitelist", JavaWrapper.methodToJava(load_lst))
     screen.addButton(20, 120, 100, 20, "Save Whitelist", JavaWrapper.methodToJava(save_lst))
     screen.addButton(x_close, y_close, 100, 20, "Close", JavaWrapper.methodToJava(close))
-    screen.addItem(100, 100, "minecraft:oak_planks", screen)
-    screen.addButton(320, 20, 15, 15, "", JavaWrapper.methodToJava(callback_two))
-    screen.addButton(320, 40, 15, 15, "", JavaWrapper.methodToJava(
-        lambda btn, ctx, bt=0: btn.setLabel("X") if bt == 0 else btn.setLabel("")))
-    screen.addButton(340, 40, 15, 15, "", JavaWrapper.methodToJava(
-        lambda btn, ctx, bt=1, str="minecraft:diamond": btn.setLabel("X") and print_str(str)))
-    screen.addButton(360, 40, 15, 15, "", JavaWrapper.methodToJava(
-        lambda btn, ctx, bt=1, str="minecraft:oak_planks": btn.setLabel("X") and print_str(str)))
     screen.addButton(x_close, y_cls_lst, 100, 20, "Clear Marked Items", JavaWrapper.methodToJava(cls_lst))
     for index, value in enumerate(white_lst):
         index = 20 + index * 20
@@ -123,7 +116,7 @@ def screen_init(screen):
                          JavaWrapper.methodToJava(lambda btn, ctx, str=value: btn.setLabel("X") and print_str(str)))
 
 
-def rm(ctx):
+def rm(ctx): # If using Command
     screen.setOnInit(JavaWrapper.methodToJava(screen_init))
     Hud.openScreen(screen)
 
