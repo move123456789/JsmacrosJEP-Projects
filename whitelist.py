@@ -1,3 +1,4 @@
+# WIP - Will be used for making list from a Clickable GUI
 if __name__ == "":
     from JsMacrosAC import *
 import ast
