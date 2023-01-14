@@ -1,11 +1,12 @@
 # More Info Soon
 # This is steel_loot combined with whitelist
 # You can create white_list with items_to_list.py
+# V0.3 14.01.23 22:32
+
 if __name__ == "":
     from JsMacrosAC import *
 
 import ast
-
 
 # == DEBUG ==
 debug = True
@@ -68,12 +69,14 @@ def print_str(str):
     else:
         click_lst.append(str)
         if debug:
+            Chat.log("click_lst from print_str")
             Chat.log(click_lst)
 
 
 def cls_lst(a1, a2):
     click_lst.clear()
     if debug:
+        Chat.log("click_lst from def cls_lst")
         Chat.log(click_lst)
     Chat.log("Cleared Marked Items")
     screen.reload()
@@ -85,6 +88,7 @@ def set_active_lst(a3, a4):
     active_lst = click_lst.copy()
     Chat.log("Active List")
     if debug:
+        Chat.log("active_lst from set_active_lst")
         Chat.log(active_lst)
     return active_lst
 
@@ -142,6 +146,7 @@ def rm(ctx):  # If using Command
 Chat.createCommandBuilder('ov').executes(JavaWrapper.methodToJavaAsync(rm)).register()
 vanilla_inventory_slots = 46
 
+
 # white_list = ["minecraft:stone", "minecraft:grass_block", "minecraft:oak_planks"]
 
 
@@ -153,7 +158,7 @@ def on_click(ctx, btn):
         i = + i
         if Player.openInventory().getSlot(i).getItemId() != "minecraft:air":
             Chat.log(Player.openInventory().getSlot(i).getItemId())
-            if Player.openInventory().getSlot(i).getItemId() in white_list:
+            if Player.openInventory().getSlot(i).getItemId() in active_lst:
                 Player.openInventory().quickAll(i)
     pass
 
@@ -162,45 +167,44 @@ def screen_init_from_chest(sceen):
     Hud.getOpenScreen().close()
     screen.setOnInit(JavaWrapper.methodToJava(screen_init))
     Hud.openScreen(screen)
-    screen_init(screen)
+    # screen_init(screen)
 
 
 def chest(ybtn, ybtn_wl):
-    screen = Hud.getOpenScreen()
+    Time.sleep(10)
+    screen_chest = Hud.getOpenScreen()
     x_btn = int(Hud.getOpenScreen().getWidth() * 0.47)
     y_btn = int(Hud.getOpenScreen().getHeight() / 2 * ybtn)
     x_btn_wl = int(Hud.getOpenScreen().getWidth() * 0.555)
     y_btn_wl = int(Hud.getOpenScreen().getHeight() / 2 * ybtn_wl)
-    screen.addButton(x_btn, y_btn, 50, 12, 150, "Steal", JavaWrapper.methodToJava(on_click))
-    screen.addButton(x_btn_wl, y_btn_wl, 10, 10, 150, "X", JavaWrapper.methodToJava(lambda btn, tt: screen_init_from_chest(screen)))
+    screen_chest.addButton(x_btn, y_btn, 50, 12, 150, "Steal", JavaWrapper.methodToJava(on_click))
+    screen_chest.addButton(x_btn_wl, y_btn_wl, 10, 10, 150, "X", JavaWrapper.methodToJava(lambda btn, tt: screen_init_from_chest(screen)))
     if debug:
         Chat.log("Opened Chest")
+        Chat.log(screen_chest)
 
 
 def check_chest():
-    sceen_name = Hud.getOpenScreenName()
-    if "Chest" in sceen_name:
-        if "6" in sceen_name:
+    if "Chest" in Hud.getOpenScreenName():
+        if "6" in Hud.getOpenScreenName():
             ybtn = 1.059
             ybtn_wl = 0.54
             chest(ybtn, ybtn_wl)
-        elif "5" in sceen_name:
+        elif "5" in Hud.getOpenScreenName():
             ybtn = 1.02
             ybtn_wl = 0.576
             chest(ybtn, ybtn_wl)
-        elif "4" in sceen_name:
+        elif "4" in Hud.getOpenScreenName():
             ybtn = 0.982
             ybtn_wl = 0.618
             chest(ybtn, ybtn_wl)
-        elif "3" in sceen_name:
+        elif "3" in Hud.getOpenScreenName():
             ybtn = 0.945
             ybtn_wl = 0.655
             chest(ybtn, ybtn_wl)
 
 
-if Hud.getOpenScreenName() is not None:
-    check_chest()
-
+JsMacros.on("OpenScreen", JavaWrapper.methodToJava(lambda a11, a12: check_chest() if(Hud.getOpenScreenName() is not None) else Chat.log("None")))
 
 
 
