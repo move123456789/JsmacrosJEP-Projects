@@ -59,8 +59,6 @@ def cls_lst(a1, a2):
     Chat.log(click_lst)
     Chat.log("Cleared Marked Items")
     screen.reload()
-    # screen.close()
-    # Hud.openScreen(screen)
 
 
 def set_active_lst(a3, a4):
@@ -100,8 +98,6 @@ def screen_init(screen):
     screen.addItem(100, 100, "minecraft:oak_planks", screen)
     screen.addButton(320, 20, 15, 15, "", JavaWrapper.methodToJava(callback_two))
     screen.addButton(320, 40, 15, 15, "", JavaWrapper.methodToJava(lambda btn, ctx, bt=0: btn.setLabel("X") if bt==0 else btn.setLabel("")))
-    # screen.addButton(320, 40, 15, 15, "", JavaWrapper.methodToJava(
-    #     lambda btn, ctx, bt=0: btn.setLabel("X") if bt == 0 else btn.click(Reflection.getClass())))
     screen.addButton(340, 40, 15, 15, "", JavaWrapper.methodToJava(
         lambda btn, ctx, bt=1, str="minecraft:diamond": btn.setLabel("X") and print_str(str)))
     screen.addButton(360, 40, 15, 15, "", JavaWrapper.methodToJava(
@@ -111,14 +107,6 @@ def screen_init(screen):
         index = 20 + index * 20
         screen.addItem(140, index, value, screen)
         screen.addButton(160, index, 10, 10, "", JavaWrapper.methodToJava(lambda btn, ctx, str=value: btn.setLabel("X") and print_str(str)))
-    # for x in range(lst):
-    #     x = 22 + x * 20
-    #     screen.addButton(160, x, 10, 10, "", JavaWrapper.methodToJava(callback))
-        # Button(300, 300, 100, 20, )
-
-
-
-
 
 
 def rm(ctx):
