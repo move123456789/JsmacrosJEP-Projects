@@ -1,7 +1,6 @@
 if __name__ == "":
     from JsMacrosAC import *
-import json
-
+import ast
 
 white_lst = ['the_vault:faceted_focus', 'the_vault:fundamental_focus', 'the_vault:resilient_focus', 'the_vault:opportunistic_focus', 'the_vault:nullifying_focus', 'the_vault:amplifying_focus', 'the_vault:wild_focus']
 lst = len(white_lst)
@@ -76,11 +75,20 @@ def cls_active_lst(a5, a6):
 
 
 def save_lst(a7, a8):
-    return
+    with open(r'C:/Users/Julian/PycharmProjects/Minecraft jsMacros/Linked/config_whitelist.txt', 'w') as fp:
+        fp.write(str(active_lst))
+        fp.close()
+    Chat.log("Whitelist Saved")
 
 
 def load_lst(a9, a10):
-    return
+    with open("C:/Users/Julian/PycharmProjects/Minecraft jsMacros/Linked/config_whitelist.txt") as f:
+        saved_list_str = f.read()
+        f.close()
+        # saved_list = list(saved_list_str.split())
+        saved_list = ast.literal_eval(saved_list_str)
+    Chat.log("Loaded Whitelist")
+    Chat.log(saved_list)
 
 
 def screen_init(screen):
