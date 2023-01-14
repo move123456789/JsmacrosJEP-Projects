@@ -1,5 +1,6 @@
 # More Info Soon
-# Clear Marked Item Button Does Not Work In This Edition
+# This is steel_loot combined with whitelist
+# You can create white_list with items_to_list.py
 if __name__ == "":
     from JsMacrosAC import *
 
@@ -61,7 +62,7 @@ def cls_lst(a1, a2):
     click_lst.clear()
     Chat.log(click_lst)
     Chat.log("Cleared Marked Items")
-    screen.close()
+    screen.reload()
 
 
 def set_active_lst(a3, a4):
