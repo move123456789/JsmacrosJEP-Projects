@@ -1,5 +1,3 @@
-import whitelist
-
 if __name__ == "":
     from JsMacrosAC import *
     from whitelist import *
@@ -30,7 +28,7 @@ def chest(ybtn, ybtn_wl):
     x_btn_wl = int(Hud.getOpenScreen().getWidth() * 0.555)
     y_btn_wl = int(Hud.getOpenScreen().getHeight() / 2 * ybtn_wl)
     screen.addButton(x_btn, y_btn, 50, 12, 150, txt, JavaWrapper.methodToJava(on_click))
-    screen.addButton(x_btn_wl, y_btn_wl, 10, 10, 150, "X", JavaWrapper.methodToJava(lambda btn, tt: init_screen()))
+    screen.addButton(x_btn_wl, y_btn_wl, 10, 10, 150, "X", JavaWrapper.methodToJava(lambda btn, tt: Chat.log("CLICKED")))
     # Chat.log("Opened Chest")
 
 
