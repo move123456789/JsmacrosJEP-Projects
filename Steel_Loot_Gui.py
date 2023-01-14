@@ -6,6 +6,12 @@ if __name__ == "":
 
 import ast
 
+
+# == DEBUG ==
+debug = True
+# == DEBUG ==
+
+
 white_lst = ['the_vault:faceted_focus', 'the_vault:fundamental_focus', 'the_vault:resilient_focus',
              'the_vault:opportunistic_focus', 'the_vault:nullifying_focus', 'the_vault:amplifying_focus',
              'the_vault:wild_focus']
@@ -20,6 +26,8 @@ screen = Hud.createScreen("Whitelist WIP", False)
 
 def close(m1, m2):
     screen.close()
+    if debug:
+        Chat.log("Closed Screen")
 
 
 def callback(btn, ctx):
@@ -27,12 +35,14 @@ def callback(btn, ctx):
     if btn_clicked_two == 0:
         btn.setLabel("X")
         btn_clicked_two = 1
-        Chat.log('Selected')
+        if debug:
+            Chat.log('Selected')
         return btn_clicked_two
     if btn_clicked_two == 1:
         btn.setLabel("")
         btn_clicked_two = 0
-        Chat.log('Unselected')
+        if debug:
+            Chat.log('Unselected')
         return btn_clicked_two
 
 
@@ -41,12 +51,14 @@ def callback_two(btn, ctx):
     if btn_clicked_one == 0:
         btn.setLabel("X")
         btn_clicked_one = 1
-        Chat.log('Selected')
+        if debug:
+            Chat.log('Selected')
         return btn_clicked_one
     if btn_clicked_one == 1:
         btn.setLabel("")
         btn_clicked_one = 0
-        Chat.log('Unselected')
+        if debug:
+            Chat.log('Unselected')
         return btn_clicked_one
 
 
@@ -55,12 +67,14 @@ def print_str(str):
         return
     else:
         click_lst.append(str)
-        Chat.log(click_lst)
+        if debug:
+            Chat.log(click_lst)
 
 
 def cls_lst(a1, a2):
     click_lst.clear()
-    Chat.log(click_lst)
+    if debug:
+        Chat.log(click_lst)
     Chat.log("Cleared Marked Items")
     screen.reload()
 
@@ -70,7 +84,8 @@ def set_active_lst(a3, a4):
     active_lst.clear()
     active_lst = click_lst.copy()
     Chat.log("Active List")
-    Chat.log(active_lst)
+    if debug:
+        Chat.log(active_lst)
     return active_lst
 
 
@@ -93,7 +108,8 @@ def load_lst(a9, a10):
             f.close()
             saved_list = ast.literal_eval(saved_list_str)
         Chat.log("Loaded Whitelist")
-        Chat.log(saved_list)
+        if debug:
+            Chat.log(saved_list)
     except FileNotFoundError:
         Chat.log("Filed Doesnt Exist")
 
@@ -118,16 +134,15 @@ def screen_init(screen):
                          JavaWrapper.methodToJava(lambda btn, ctx, str=value: btn.setLabel("X") and print_str(str)))
 
 
-def rm(ctx): # If using Command
+def rm(ctx):  # If using Command
     screen.setOnInit(JavaWrapper.methodToJava(screen_init))
     Hud.openScreen(screen)
 
 
 Chat.createCommandBuilder('ov').executes(JavaWrapper.methodToJavaAsync(rm)).register()
 vanilla_inventory_slots = 46
-txt = "Steal"
 
-white_list = ["minecraft:stone", "minecraft:grass_block", "minecraft:oak_planks"]
+# white_list = ["minecraft:stone", "minecraft:grass_block", "minecraft:oak_planks"]
 
 
 def on_click(ctx, btn):
@@ -142,6 +157,7 @@ def on_click(ctx, btn):
                 Player.openInventory().quickAll(i)
     pass
 
+
 def screen_init_from_chest(sceen):
     Hud.getOpenScreen().close()
     screen.setOnInit(JavaWrapper.methodToJava(screen_init))
@@ -155,9 +171,10 @@ def chest(ybtn, ybtn_wl):
     y_btn = int(Hud.getOpenScreen().getHeight() / 2 * ybtn)
     x_btn_wl = int(Hud.getOpenScreen().getWidth() * 0.555)
     y_btn_wl = int(Hud.getOpenScreen().getHeight() / 2 * ybtn_wl)
-    screen.addButton(x_btn, y_btn, 50, 12, 150, txt, JavaWrapper.methodToJava(on_click))
+    screen.addButton(x_btn, y_btn, 50, 12, 150, "Steal", JavaWrapper.methodToJava(on_click))
     screen.addButton(x_btn_wl, y_btn_wl, 10, 10, 150, "X", JavaWrapper.methodToJava(lambda btn, tt: screen_init_from_chest(screen)))
-    # Chat.log("Opened Chest")
+    if debug:
+        Chat.log("Opened Chest")
 
 
 def check_chest():
