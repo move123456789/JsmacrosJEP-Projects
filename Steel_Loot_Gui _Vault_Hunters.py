@@ -1,7 +1,7 @@
 # More Info Soon
 # This is steel_loot combined with whitelist
 # You can create white_list with items_to_list.py
-# V1.1 15.01.23 16:46
+# V1.3 15.01.23 18:08
 
 if __name__ == "":
     from JsMacrosAC import *
@@ -11,6 +11,8 @@ import ast
 # == DEBUG ==
 debug = False
 # == DEBUG ==
+# If Quark is installed Set Quark to True == Sorts The Inventory
+quark = True
 
 
 Chat.log(Chat.createTextBuilder().append("[").withColor(0x7)
@@ -19,7 +21,6 @@ Chat.log(Chat.createTextBuilder().append("[").withColor(0x7)
              .append(" Steel Loot -").withColor(0xd)
              .append(" Enabled").withColor(0xc).build())
 
-# white_lst = ['minecraft:emerald', 'minecraft:amethyst_shard', 'minecraft:copper_ingot', 'minecraft:netherite_scrap', 'minecraft:golden_apple', 'minecraft:gold_nugget', 'minecraft:gold_ingot', 'minecraft:netherite_ingot', 'minecraft:diamond', 'minecraft:shulker_shell', 'architects_palette:unobtanium' , 'architects_palette:nether_brass_ingot', 'architects_palette:sunmetal_brick', 'architects_palette:algal_brick', 'the_vault:chromatic_steel_ingot', 'the_vault:silver_scrap', 'the_vault:gorgeous_jewel', 'the_vault:ash_jewel', 'the_vault:benite_jewel', 'the_vault:bombing_jewel', 'the_vault:echoing_jewel', 'the_vault:petzan_jewel', 'the_vault:pogging_jewel', 'the_vault:tubic_jewel', 'the_vault:xen_jewel', 'the_vault:sparking_jewel', 'the_vault:iskallic_jewel', 'the_vault:upal_jewel', 'the_vault:phoenix_dust', 'the_vault:phoenix_feather', 'the_vault:dreamstone', 'the_vault:eye_of_avarice', 'the_vault:gem_benitoite', 'the_vault:gem_larimar', 'the_vault:gem_black_opal', 'the_vault:gem_painite', 'the_vault:gem_iskallium', 'the_vault:gem_gorginite', 'the_vault:gem_sparkletine', 'the_vault:gem_ashium', 'the_vault:gem_bomignite', 'the_vault:gem_tubium', 'the_vault:gem_wutodie', 'the_vault:gem_upaline', 'the_vault:gem_puffium', 'the_vault:gem_petzanite', 'the_vault:gem_xenium', 'the_vault:gem_echo', 'the_vault:vault_rock', 'the_vault:gem_pog', 'the_vault:relic_booster_pack', 'the_vault:skill_shard', 'the_vault:bitter_lemon', 'the_vault:sour_orange', 'the_vault:mystic_pear', 'the_vault:key_piece', 'the_vault:poisonous_mushroom', 'the_vault:vault_diamond', 'the_vault:skill_essence', 'the_vault:mote_clarity', 'the_vault:mote_purity', 'the_vault:mote_sanctity', 'the_vault:burger_cheese', 'the_vault:burger_lettuce', 'the_vault:burger_tomato', 'the_vault:vault_cookie', 'the_vault:skill_orb', 'the_vault:gem_alexandrite', 'the_vault:mystery_egg', 'the_vault:acceleration_chip', 'the_vault:pandoras_box', 'the_vault:eternal_soul', 'the_vault:knowledge_star_shard', 'the_vault:knowledge_star_essence', 'the_vault:knowledge_star', 'the_vault:sword', 'the_vault:axe', 'the_vault:idol_timekeeper', 'the_vault:idol_omniscient', 'the_vault:idol_benevolent', 'the_vault:etching', 'the_vault:shield', 'the_vault:boots', 'the_vault:leggings', 'the_vault:chestplate', 'the_vault:helmet', 'the_vault:idol_malevolence', 'the_vault:unidentified_relic_fragment', 'the_vault:sweet_kiwi', 'the_vault:hunter_eye', 'the_vault:burger_patty', 'the_vault:burger_bun', 'the_vault:vault_scrap', 'the_vault:vault_ingot', 'the_vault:mystery_box', 'the_vault:empty_flask', 'the_vault:wild_focus', 'the_vault:amplifying_focus', 'the_vault:nullifying_focus', 'the_vault:vault_alloy', 'the_vault:fundamental_focus', 'the_vault:rune', 'the_vault:vault_catalyst_fragment', 'the_vault:soul_flame', 'the_vault:faceted_focus', 'the_vault:crystal_seal_empty', 'the_vault:perfect_echo_gem', 'the_vault:resilient_focus', 'the_vault:vault_plating', 'the_vault:vault_essence', 'the_vault:magnetite', 'the_vault:vault_nugget', 'the_vault:vault_dust', 'the_vault:hearty_apple', 'the_vault:vault_apple', 'the_vault:raw_chromatic_iron', 'the_vault:chromatic_iron_nugget', 'the_vault:chromatic_iron_ingot', 'the_vault:chromatic_steel_nugget', 'the_vault:black_chromatic_steel_ingot', 'the_vault:magic_silk', 'the_vault:chipped_vault_rock', 'the_vault:carbon', 'the_vault:carbon_nugget', 'the_vault:vault_meat', 'the_vault:treasure_chest_scroll', 'the_vault:altar_chest_scroll', 'the_vault:living_chest_scroll', 'the_vault:gilded_chest_scroll', 'the_vault:ornate_chest_scroll', 'the_vault:wooden_chest_scroll', 'the_vault:driftwood', 'the_vault:diamond_nugget', 'the_vault:cooked_vault_steak', 'the_vault:extraordinary_benitoite', 'the_vault:extraordinary_larimar', 'the_vault:extraordinary_wutodie', 'the_vault:regret_nugget', 'the_vault:regret_chunk', 'the_vault:regret_orb', 'the_vault:aura_scroll', 'the_vault:unidentified_treasure_key', 'the_vault:mod_box', 'the_vault:memory_shard', 'the_vault:trinket', 'minecraft:golden_carrot']
 # ALL LOOT DROPS AVAILABLE FROM CHESTS ARE IN white_lst BELOW
 # Items in list
 white_lst = ['minecraft:torch', 'minecraft:scaffolding', 'minecraft:bread', 'minecraft:book', 'minecraft:coal', 'minecraft:arrow', 'minecraft:paper', 'minecraft:experience_bottle', 'minecraft:obsidian', 'minecraft:pointed_dripstone', 'minecraft:golden_carrot', 'minecraft:emerald', 'the_vault:driftwood', 'the_vault:carbon_nugget', 'the_vault:diamond_nugget', 'the_vault:vault_dust', 'the_vault:magic_silk', 'the_vault:raw_chromatic_iron', 'the_vault:magnetite', 'the_vault:vault_plating', 'quark:blank_rune', 'minecraft:shulker_shell', 'minecraft:netherite_scrap', 'the_vault:vault_essence', 'the_vault:vault_apple', 'the_vault:wild_focus', 'the_vault:knowledge_star_essence', 'the_vault:vault_diamond', 'the_vault:wooden_chest_scroll', 'minecraft:bone', 'minecraft:rotten_flesh', 'minecraft:string', 'minecraft:dead_brain_coral', 'minecraft:gunpowder', 'minecraft:cobweb', 'minecraft:prismarine_shard', 'architects_palette:entwine_rod', 'architects_palette:nether_brass_ingot', 'minecraft:ender_eye', 'the_vault:idol_benevolent', 'the_vault:idol_omniscient', 'the_vault:idol_timekeeper', 'the_vault:idol_malevolence', 'the_vault:gem_echo', 'the_vault:soul_flame', 'the_vault:vault_bronze', 'the_vault:vault_silver', 'the_vault:vault_gold', 'the_vault:altar_chest_scroll', 'minecraft:gold_ingot', 'minecraft:copper_ingot', 'minecraft:amethyst_shard', 'architects_palette:unobtanium', 'the_vault:regret_nugget', 'the_vault:silver_scrap', 'the_vault:relic_booster_pack', 'the_vault:mystery_box', 'the_vault:key_piece', 'the_vault:gilded_chest_scroll', 'the_vault:amplifying_focus', 'the_vault:vault_meat', 'the_vault:carbon', 'the_vault:regret_chunk', 'the_vault:skill_essence', 'minecraft:netherite_ingot', 'minecraft:diamond', 'the_vault:vault_nugget', 'the_vault:sword', 'the_vault:axe', 'the_vault:helmet', 'the_vault:chestplate', 'the_vault:leggings', 'the_vault:boots', 'the_vault:shield', 'the_vault:unidentified_relic_fragment', 'the_vault:fundamental_focus', 'the_vault:memory_shard', 'the_vault:mote_clarity', 'the_vault:crystal_seal_empty', 'the_vault:eternal_soul', 'the_vault:mote_purity', 'the_vault:bitter_lemon', 'the_vault:trinket', 'the_vault:vault_alloy', 'the_vault:mystery_egg', 'the_vault:dreamstone', 'the_vault:phoenix_dust', 'the_vault:chromatic_iron_ingot', 'the_vault:mod_box', 'minecraft:redstone', 'minecraft:lapis_lazuli', 'minecraft:quartz', 'minecraft:enchanted_book', 'minecraft:bell', 'minecraft:elytra', 'minecraft:budding_amethyst', 'the_vault:crystal_budding', 'architects_palette:withered_bone', 'architects_palette:algal_brick', 'architects_palette:algal_blend', 'the_vault:burger_patty', 'the_vault:burger_bun', 'the_vault:empty_flask', 'the_vault:sweet_kiwi', 'the_vault:hunter_eye', 'the_vault:cooked_vault_steak', 'the_vault:poisonous_mushroom', 'the_vault:living_chest_scroll', 'the_vault:burger_cheese', 'the_vault:hearty_apple', 'the_vault:burger_tomato', 'the_vault:burger_lettuce', 'minecraft:potion', 'minecraft:ender_pearl', 'minecraft:blaze_rod', 'minecraft:golden_apple', 'architects_palette:sunmetal_brick', 'minecraft:iron_ingot', 'the_vault:chromatic_iron_nugget', 'the_vault:chromatic_steel_nugget', 'the_vault:ornate_chest_scroll', 'the_vault:nullifying_focus', 'the_vault:vault_ingot', 'the_vault:acceleration_chip', 'the_vault:black_chromatic_steel_ingot', 'the_vault:regret_orb', 'the_vault:knowledge_star_shard', 'the_vault:skill_shard', 'compressium:redstone_2', 'compressium:iron_2', 'compressium:gold_2', 'compressium:copper_2', 'the_vault:extraordinary_larimar', 'the_vault:extraordinary_benitoite', 'the_vault:extraordinary_wutodie', 'the_vault:extraordinary_painite', 'waystones:waystone', 'easy_villagers:trader', 'torchmaster:megatorch', 'trashcans:item_trash_can', 'ironfurnaces:diamond_furnace', 'irongenerators:gold_generator', 'the_vault:eye_of_avarice', 'the_vault:pandoras_box', 'the_vault:black_chromatic_pickaxe', 'quark:pickarang', 'sophisticatedbackpacks:backpack', 'the_vault:phoenix_feather', 'the_vault:resilient_focus', 'the_vault:skill_orb', 'the_vault:knowledge_star', 'compressium:emerald_2', 'compressium:diamond_2', 'sophisticatedbackpacks:iron_backpack', 'cagerium:terrarium', 'the_vault:aura_scroll', 'the_vault:mote_sanctity', 'compressium:netherite_1', 'buildinggadgets:gadget_building', 'mininggadgets:mininggadget_simple', 'mekanismgenerators:wind_generator', 'the_vault:treasure_chest_scroll', 'the_vault:gem_larimar', 'the_vault:gem_benitoite', 'the_vault:gem_wutodie', 'the_vault:gem_painite', 'the_vault:gem_black_opal', 'the_vault:gem_alexandrite', 'the_vault:gem_iskallium', 'the_vault:gem_gorginite', 'the_vault:gem_sparkletine', 'the_vault:gem_ashium', 'the_vault:gem_bomignite', 'the_vault:gem_petzanite', 'the_vault:gem_tubium', 'the_vault:gem_upaline', 'the_vault:gem_xenium', 'the_vault:gem_pog', 'the_vault:unidentified_treasure_key']
@@ -113,14 +114,16 @@ def save_lst(a7, a8):
 
 
 def load_lst(a9, a10):
+    global active_lst
     try:
         with open("C:/Users/Julian/PycharmProjects/Minecraft jsMacros/Linked/config_whitelist.txt") as f:
             saved_list_str = f.read()
             f.close()
-            saved_list = ast.literal_eval(saved_list_str)
+            active_lst = ast.literal_eval(saved_list_str)
         Chat.log("Loaded Whitelist")
         if debug:
-            Chat.log(saved_list)
+            Chat.log(active_lst)
+        return active_lst
     except FileNotFoundError:
         Chat.log("Filed Doesnt Exist")
 
@@ -218,6 +221,11 @@ vanilla_inventory_slots = 46
 
 
 def on_click(ctx, btn):
+    if quark:
+        KeyBind.keyBind("quark.keybind.sort_container", True)
+        KeyBind.keyBind("quark.keybind.sort_container", False)
+        if debug:
+            Chat.log("Cliked Quark Sort_Container")
     chest_slots = int(Player.openInventory().getTotalSlots() - vanilla_inventory_slots)
     if debug:
         Chat.log(chest_slots)
@@ -248,6 +256,15 @@ def chest(ybtn, ybtn_wl):
     y_btn_wl = int(Hud.getOpenScreen().getHeight() / 2 * ybtn_wl)
     screen_chest.addButton(x_btn, y_btn, 50, 12, 150, "Steal", JavaWrapper.methodToJava(on_click))
     screen_chest.addButton(x_btn_wl, y_btn_wl, 10, 10, 150, "X", JavaWrapper.methodToJava(lambda btn, tt: screen_init_from_chest(screen)))
+    JsMacros.on("Key", JavaWrapper.methodToJava(on_click))
+    # if KeyBind.keyBind("key.keyboard.keypad.add", True):
+    if KeyBind.getPressedKeys() == "key.keyboard.keypad.add":
+        if debug:
+            Chat.log("Pressed Key")
+            Chat.log(KeyBind.getPressedKeys())
+            Chat.log("Continues")
+        on_click()
+
     if debug:
         Chat.log("Opened Chest")
         Chat.log(screen_chest)
