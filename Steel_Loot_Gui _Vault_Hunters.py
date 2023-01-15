@@ -1,7 +1,7 @@
 # More Info Soon
 # This is steel_loot combined with whitelist
 # You can create white_list with items_to_list.py
-# V1.1 15.01.23 15:49
+# V1.1 15.01.23 16:28
 
 if __name__ == "":
     from JsMacrosAC import *
@@ -225,10 +225,11 @@ def on_click(ctx, btn):
     for i in range(chest_slots):
         i = + i
         if Player.openInventory().getSlot(i).getItemId() != "minecraft:air":
-            if debug:
-                Chat.log(Player.openInventory().getSlot(i).getItemId())
             if Player.openInventory().getSlot(i).getItemId() in active_lst:
                 Player.openInventory().quickAll(i)
+            if debug:
+                Chat.log(Player.openInventory().getSlot(i).getItemId())
+
     pass
 
 
