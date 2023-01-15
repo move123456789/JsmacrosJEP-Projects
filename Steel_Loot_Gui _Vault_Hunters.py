@@ -1,7 +1,7 @@
 # More Info Soon
 # This is steel_loot combined with whitelist
 # You can create white_list with items_to_list.py
-# V1.3 15.01.23 18:08
+# V1.3 16.01.23 00:08
 
 if __name__ == "":
     from JsMacrosAC import *
@@ -221,11 +221,8 @@ vanilla_inventory_slots = 46
 
 
 def on_click(ctx, btn):
-    if quark:
-        KeyBind.keyBind("quark.keybind.sort_container", True)
-        KeyBind.keyBind("quark.keybind.sort_container", False)
-        if debug:
-            Chat.log("Cliked Quark Sort_Container")
+    context.releaseLock()
+    Client.waitTick(40)
     chest_slots = int(Player.openInventory().getTotalSlots() - vanilla_inventory_slots)
     if debug:
         Chat.log(chest_slots)
@@ -247,6 +244,22 @@ def screen_init_from_chest(sceen):
     Hud.openScreen(screen)
 
 
+def tick_key_init(key, modifier):
+    Time.sleep(10)
+    check_key = 45  # Got this value from running Chat.log(key) inside here while i pressed a key
+    if debug:
+        Chat.log("Key Pressed")
+        Chat.log(key)
+    if check_key == key:
+        if debug:
+            Chat.log("Correct Key")
+            Chat.log(key)
+            Chat.log("Continues")
+        ctx = None
+        btn = None
+        on_click(ctx, btn)
+
+
 def chest(ybtn, ybtn_wl):
     Time.sleep(10)
     screen_chest = Hud.getOpenScreen()
@@ -256,18 +269,12 @@ def chest(ybtn, ybtn_wl):
     y_btn_wl = int(Hud.getOpenScreen().getHeight() / 2 * ybtn_wl)
     screen_chest.addButton(x_btn, y_btn, 50, 12, 150, "Steal", JavaWrapper.methodToJava(on_click))
     screen_chest.addButton(x_btn_wl, y_btn_wl, 10, 10, 150, "X", JavaWrapper.methodToJava(lambda btn, tt: screen_init_from_chest(screen)))
-    JsMacros.on("Key", JavaWrapper.methodToJava(on_click))
-    # if KeyBind.keyBind("key.keyboard.keypad.add", True):
-    if KeyBind.getPressedKeys() == "key.keyboard.keypad.add":
-        if debug:
-            Chat.log("Pressed Key")
-            Chat.log(KeyBind.getPressedKeys())
-            Chat.log("Continues")
-        on_click()
-
+    screen_chest.setOnKeyPressed(JavaWrapper.methodToJava(tick_key_init))
     if debug:
         Chat.log("Opened Chest")
         Chat.log(screen_chest)
+
+
 
 
 def check_chest():
