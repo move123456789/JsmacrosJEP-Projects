@@ -1,7 +1,7 @@
 # More Info Soon
 # This is steel_loot combined with whitelist
 # You can create white_list with items_to_list.py
-# V1.4 16.01.23 02:02
+# V1.5 16.01.23 22:10
 if __name__ == "":
     from JsMacrosAC import *
 
@@ -222,9 +222,10 @@ vanilla_inventory_slots = 46
 def on_click(ctx, btn):
     if Hud.getOpenScreenName() is not None:
         if quark:
-            Hud.getOpenScreen().getButtonWidgets()[2].click()  # [2] Is the Sort Inventory Button From Quark
+            Hud.getOpenScreen().getButtonWidgets()[2].click()  # [2] Is the Sort Inventory Button From Quark(May Vary)
         else:
             pass
+    Hud.getOpenScreen().getButtonWidgets()[0].setActive(False)
     context.releaseLock()
     Client.waitTick(10)
     chest_slots = int(Player.openInventory().getTotalSlots() - vanilla_inventory_slots)
@@ -257,7 +258,9 @@ def chest(ybtn, ybtn_wl):
     y_btn_wl = int(Hud.getOpenScreen().getHeight() / 2 * ybtn_wl)
     screen_chest.addButton(x_btn, y_btn, 50, 12, 150, "Steal", JavaWrapper.methodToJavaAsync(on_click))
     screen_chest.addButton(x_btn_wl, y_btn_wl, 10, 10, 150, "X", JavaWrapper.methodToJava(lambda btn, tt: screen_init_from_chest(screen)))
-    screen_chest.setOnKeyPressed(JavaWrapper.methodToJavaAsync(on_click))
+    # Uncomment This Line To Check What The Key You Want To Bind is. Mine is 67 as you see below
+    # screen_chest.setOnKeyPressed(JavaWrapper.methodToJavaAsync(lambda key, modifier: Chat.log(key) and Chat.log(modifier)))
+    screen_chest.setOnKeyPressed(JavaWrapper.methodToJavaAsync(lambda key, modifier, ctx=None, btn=None: on_click(ctx, btn) if(key == 67) else None))
     if debug:
         Chat.log("Opened Chest")
         Chat.log(screen_chest)
@@ -283,7 +286,7 @@ def check_chest():
             chest(ybtn, ybtn_wl)
 
 
-JsMacros.on("OpenScreen", JavaWrapper.methodToJava(lambda a11, a12: check_chest() if(Hud.getOpenScreenName() is not None) else a11))
+JsMacros.on("OpenScreen", JavaWrapper.methodToJavaAsync(lambda a11, a12: check_chest() if(Hud.getOpenScreenName() is not None) else None))
 
 
 
