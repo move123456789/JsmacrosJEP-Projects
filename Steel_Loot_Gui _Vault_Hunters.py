@@ -1,8 +1,7 @@
 # More Info Soon
 # This is steel_loot combined with whitelist
 # You can create white_list with items_to_list.py
-# V1.3 16.01.23 00:08
-
+# V1.4 16.01.23 02:02
 if __name__ == "":
     from JsMacrosAC import *
 
@@ -221,8 +220,13 @@ vanilla_inventory_slots = 46
 
 
 def on_click(ctx, btn):
+    if Hud.getOpenScreenName() is not None:
+        if quark:
+            Hud.getOpenScreen().getButtonWidgets()[2].click()  # [2] Is the Sort Inventory Button From Quark
+        else:
+            pass
     context.releaseLock()
-    Client.waitTick(40)
+    Client.waitTick(10)
     chest_slots = int(Player.openInventory().getTotalSlots() - vanilla_inventory_slots)
     if debug:
         Chat.log(chest_slots)
@@ -244,22 +248,6 @@ def screen_init_from_chest(sceen):
     Hud.openScreen(screen)
 
 
-def tick_key_init(key, modifier):
-    Time.sleep(10)
-    check_key = 45  # Got this value from running Chat.log(key) inside here while i pressed a key
-    if debug:
-        Chat.log("Key Pressed")
-        Chat.log(key)
-    if check_key == key:
-        if debug:
-            Chat.log("Correct Key")
-            Chat.log(key)
-            Chat.log("Continues")
-        ctx = None
-        btn = None
-        on_click(ctx, btn)
-
-
 def chest(ybtn, ybtn_wl):
     Time.sleep(10)
     screen_chest = Hud.getOpenScreen()
@@ -267,14 +255,12 @@ def chest(ybtn, ybtn_wl):
     y_btn = int(Hud.getOpenScreen().getHeight() / 2 * ybtn)
     x_btn_wl = int(Hud.getOpenScreen().getWidth() * 0.555)
     y_btn_wl = int(Hud.getOpenScreen().getHeight() / 2 * ybtn_wl)
-    screen_chest.addButton(x_btn, y_btn, 50, 12, 150, "Steal", JavaWrapper.methodToJava(on_click))
+    screen_chest.addButton(x_btn, y_btn, 50, 12, 150, "Steal", JavaWrapper.methodToJavaAsync(on_click))
     screen_chest.addButton(x_btn_wl, y_btn_wl, 10, 10, 150, "X", JavaWrapper.methodToJava(lambda btn, tt: screen_init_from_chest(screen)))
-    screen_chest.setOnKeyPressed(JavaWrapper.methodToJava(tick_key_init))
+    screen_chest.setOnKeyPressed(JavaWrapper.methodToJavaAsync(on_click))
     if debug:
         Chat.log("Opened Chest")
         Chat.log(screen_chest)
-
-
 
 
 def check_chest():
