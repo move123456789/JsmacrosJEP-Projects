@@ -1,7 +1,8 @@
 # More Info Soon
 # This is steel_loot combined with whitelist
 # You can create white_list with items_to_list.py
-# V1.5 16.01.23 22:10
+# V1.5 17.01.23 23:22
+# Created by SmokyAce
 if __name__ == "":
     from JsMacrosAC import *
 
@@ -225,9 +226,12 @@ def on_click(ctx, btn):
             Hud.getOpenScreen().getButtonWidgets()[2].click()  # [2] Is the Sort Inventory Button From Quark(May Vary)
         else:
             pass
-    Hud.getOpenScreen().getButtonWidgets()[0].setActive(False)
-    context.releaseLock()
-    Client.waitTick(10)
+    Hud.getOpenScreen().getButtonWidgets()[0].setActive(False)  # Disables the Steal Button After Click in def chest()
+    context.releaseLock()  # Takes off the main thread, else i cant use Client.waitTick
+    if quark:
+        Client.waitTick(10)
+    else:
+        Client.waitTick(2)
     chest_slots = int(Player.openInventory().getTotalSlots() - vanilla_inventory_slots)
     if debug:
         Chat.log(chest_slots)
