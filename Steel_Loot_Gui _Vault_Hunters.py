@@ -1,7 +1,7 @@
 # More Info Soon
 # This is steel_loot combined with whitelist
 # You can create white_list with items_to_list.py
-# V1.5 17.01.23 23:22
+# V1.6 19.01.23 23:17
 # Created by SmokyAce
 if __name__ == "":
     from JsMacrosAC import *
@@ -9,11 +9,12 @@ if __name__ == "":
 import ast
 
 # == DEBUG ==
-debug = False
+debug = True
 # == DEBUG ==
 # If Quark is installed Set Quark to True == Sorts The Inventory
 quark = True
 
+Chat.unregisterCommand("steal")  # Unregisters Old Command
 
 Chat.log(Chat.createTextBuilder().append("[").withColor(0x7)
              .append("SmokyAce").withColor(0x6)
@@ -125,7 +126,7 @@ def load_lst(a9, a10):
             Chat.log(active_lst)
         return active_lst
     except FileNotFoundError:
-        Chat.log("Filed Doesnt Exist")
+        Chat.log("File Doesnt Exist")
 
 
 def add_all_to_lst(a12, a13):
@@ -137,6 +138,23 @@ def add_all_to_lst(a12, a13):
         Chat.log("active_lst from set_active_lst")
         Chat.log(active_lst)
     return active_lst
+
+
+def items_to_list_from_cmd(ctx):
+    global active_lst
+    items_from_cmd = ctx.getArg("itemNameToGive").getItemId()
+    Chat.log(Chat.createTextBuilder().append("Added: ").withColor(0x6).append(items_from_cmd).withColor(0x7).build())
+    if items_from_cmd in active_lst:
+        return
+    else:
+        active_lst.append(items_from_cmd)
+
+
+def save_cmd(ctx):
+    with open(r'C:/Users/Julian/PycharmProjects/Minecraft jsMacros/Linked/config_whitelist.txt', 'w') as fp:
+        fp.write(str(active_lst))
+        fp.close()
+    Chat.log("Whitelist Saved")
 
 
 def screen_init(screen):
@@ -211,12 +229,20 @@ def screen_init(screen):
     #                      JavaWrapper.methodToJava(lambda btn, ctx, str=value: btn.setLabel("X") and print_str(str)))
 
 
-def rm(ctx):  # If using Command
-    screen.setOnInit(JavaWrapper.methodToJava(screen_init))
-    Hud.openScreen(screen)
+#  ADD ITEMS TO WHITELIST WITH /addWL. Does Not Save The List
+Chat.createCommandBuilder('steal')\
+    .literalArg('add')\
+        .itemArg('itemNameToGive')\
+            .executes(JavaWrapper.methodToJavaAsync(items_to_list_from_cmd))\
+            .otherwise()\
+        .otherwise()\
+    .literalArg('save')\
+        .executes(JavaWrapper.methodToJavaAsync(save_cmd))\
+        .otherwise()\
+    .literalArg('gui')\
+        .executes(JavaWrapper.methodToJavaAsync(lambda gui1: screen.setOnInit(JavaWrapper.methodToJava(screen_init)) and Hud.openScreen(screen)))\
+.register()
 
-
-Chat.createCommandBuilder('ov').executes(JavaWrapper.methodToJavaAsync(rm)).register()
 vanilla_inventory_slots = 46
 
 
