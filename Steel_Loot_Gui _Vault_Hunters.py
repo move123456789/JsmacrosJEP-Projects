@@ -1,26 +1,26 @@
 # More Info Soon
 # This is steel_loot combined with whitelist
 # You can create white_list with items_to_list.py or use /steal add "minecraft id"
-# V1.6 19.01.23 23:20
+# Commands:
+# /steal [add,save,gui,chest_close,check_whitelist]
+# V1.6 20.01.23 00:01
 # Created by SmokyAce
 if __name__ == "":
     from JsMacrosAC import *
 
 import ast
 
+
+ver = "V1.6"
 # == DEBUG ==
 debug = False
 # == DEBUG ==
 # If Quark is installed Set Quark to True == Sorts The Inventory
 quark = True
+# Init Overlay
+startup_overlay = True
 
 Chat.unregisterCommand("steal")  # Unregisters Old Command
-
-Chat.log(Chat.createTextBuilder().append("[").withColor(0x7)
-             .append("SmokyAce").withColor(0x6)
-             .append("]").withColor(0x7)
-             .append(" Steel Loot -").withColor(0xd)
-             .append(" Enabled").withColor(0xc).build())
 
 # ALL LOOT DROPS AVAILABLE FROM CHESTS ARE IN white_lst BELOW
 # Items in list
@@ -30,9 +30,31 @@ click_lst = []
 active_lst = []
 btn_clicked_one = 0
 btn_clicked_two = 0
-
+chest_close = False  # Closes chest after Loot Has Been Stolen USE /steal ChestClose [on/off]
 screen = Hud.createScreen("Whitelist WIP", False)
 
+if startup_overlay:
+    overlay = Hud.createDraw2D()
+    center_x = overlay.getWidth() / 2
+    center_y = overlay.getHeight() / 2
+    times_x = center_x * 0.7
+    times_y = center_y * 0.8
+    int_x = int(times_x)
+    int_y = int(times_y)
+    overlay.setOnInit(JavaWrapper.methodToJavaAsync(lambda ovly: ovly.addText("Steal Loot Enabled " + ver, int_x, int_y, 0xFFAA00, True, 3, 0) and ovly.addText("By SmokyAce", int_x, int_y + 25, 0xFFAA00, True, 1, 0)))
+    Hud.registerDraw2D(overlay)
+    Time.sleep(2500)
+    Hud.unregisterDraw2D(overlay)
+    Hud.clearDraw2Ds()
+    Time.sleep(1000)
+else:
+    Chat.log(Chat.createTextBuilder().append("[").withColor(0x7)
+             .append("SmokyAce").withColor(0x6)
+             .append("]").withColor(0x7)
+             .append(" Steel Loot ").withColor(0xd)
+             .append(ver).withColor(0xd)
+             .append(" -").withColor(0xd)
+             .append(" Enabled").withColor(0xc).build())
 
 def close(m1, m2):
     screen.close()
@@ -164,7 +186,7 @@ def screen_init(screen):
     x_close = int(cen_x * 0.885)
     y_cls_lst = int(cen_y * 1.7)
     screen.addButton(20, 20, 100, 20, "Add item to Whitelist", JavaWrapper.methodToJava(set_active_lst))
-    screen.addButton(20, 45, 100, 20, "Check Whitelist", JavaWrapper.methodToJava(lambda a5, a6: Chat.log(active_lst)))
+    screen.addButton(20, 45, 100, 20, "Check Whitelist", JavaWrapper.methodToJava(lambda a5, a6: Chat.log(Chat.createTextBuilder().append("Active Whitelist: ").withColor(0x6).append(active_lst).withColor(0x7).build())))
     screen.addButton(20, 70, 100, 20, "Clear Whitelist", JavaWrapper.methodToJava(cls_active_lst))
     screen.addButton(20, 95, 100, 20, "Load Whitelist", JavaWrapper.methodToJava(load_lst))
     screen.addButton(20, 120, 100, 20, "Save Whitelist", JavaWrapper.methodToJava(save_lst))
@@ -229,6 +251,20 @@ def screen_init(screen):
     #                      JavaWrapper.methodToJava(lambda btn, ctx, str=value: btn.setLabel("X") and print_str(str)))
 
 
+def chest_close_on(ctx):
+    global chest_close
+    chest_close = True
+    Chat.log(Chat.createTextBuilder().append("Chest Loot: ").withColor(0x6).append("Activated").withColor(0x7).build())
+    return chest_close
+
+
+def chest_close_off(ctx):
+    global chest_close
+    chest_close = False
+    Chat.log(Chat.createTextBuilder().append("Chest Loot: ").withColor(0x6).append("Disabled").withColor(0x7).build())
+    return chest_close
+
+
 #  ADD ITEMS TO WHITELIST WITH /addWL. Does Not Save The List
 Chat.createCommandBuilder('steal')\
     .literalArg('add')\
@@ -241,6 +277,17 @@ Chat.createCommandBuilder('steal')\
         .otherwise()\
     .literalArg('gui')\
         .executes(JavaWrapper.methodToJavaAsync(lambda gui1: screen.setOnInit(JavaWrapper.methodToJava(screen_init)) and Hud.openScreen(screen)))\
+        .otherwise()\
+    .literalArg('chest_close')\
+        .literalArg('on')\
+            .executes(JavaWrapper.methodToJavaAsync(chest_close_on))\
+            .otherwise()\
+        .literalArg('off')\
+            .executes(JavaWrapper.methodToJavaAsync(chest_close_off))\
+            .otherwise()\
+        .otherwise()\
+    .literalArg('check_whitelist')\
+        .executes(JavaWrapper.methodToJavaAsync(lambda check: Chat.log(Chat.createTextBuilder().append("Active Whitelist: ").withColor(0x6).append(active_lst).withColor(0x7).build())))\
 .register()
 
 vanilla_inventory_slots = 46
@@ -269,8 +316,9 @@ def on_click(ctx, btn):
                 Player.openInventory().quickAll(i)
             if debug:
                 Chat.log(Player.openInventory().getSlot(i).getItemId())
-
     pass
+    if chest_close:
+        Player.openInventory().closeAndDrop()
 
 
 def screen_init_from_chest(sceen):
