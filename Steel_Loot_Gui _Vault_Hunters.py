@@ -1,7 +1,7 @@
 # More Info Soon
 # This is steel_loot combined with whitelist
-# You can create white_list with items_to_list.py
-# V1.6 19.01.23 23:17
+# You can create white_list with items_to_list.py or use /steal add "minecraft id"
+# V1.6 19.01.23 23:20
 # Created by SmokyAce
 if __name__ == "":
     from JsMacrosAC import *
@@ -9,7 +9,7 @@ if __name__ == "":
 import ast
 
 # == DEBUG ==
-debug = True
+debug = False
 # == DEBUG ==
 # If Quark is installed Set Quark to True == Sorts The Inventory
 quark = True
