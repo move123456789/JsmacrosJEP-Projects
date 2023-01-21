@@ -18,7 +18,7 @@ debug = False
 # If Quark is installed Set Quark to True == Sorts The Inventory
 quark = True
 # Init Overlay
-startup_overlay = False
+startup_overlay = True
 
 Chat.unregisterCommand("steal")  # Unregisters Old Command
 
