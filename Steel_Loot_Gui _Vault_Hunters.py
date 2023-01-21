@@ -3,7 +3,7 @@
 # You can create white_list with items_to_list.py or use /steal add "minecraft id"
 # Commands:
 # /steal [add,save,gui,chest_close,check_whitelist]
-# V1.6 20.01.23 00:01
+# V1.7 21.01.23 21:14
 # Created by SmokyAce
 if __name__ == "":
     from JsMacrosAC import *
@@ -11,14 +11,14 @@ if __name__ == "":
 import ast
 
 
-ver = "V1.6"
+ver = "V1.7"
 # == DEBUG ==
-debug = False
+debug = True
 # == DEBUG ==
 # If Quark is installed Set Quark to True == Sorts The Inventory
 quark = True
 # Init Overlay
-startup_overlay = True
+startup_overlay = False
 
 Chat.unregisterCommand("steal")  # Unregisters Old Command
 
@@ -193,62 +193,13 @@ def screen_init(screen):
     screen.addButton(20, 145, 100, 20, "Add All To Whitelist", JavaWrapper.methodToJava(add_all_to_lst))
     screen.addButton(x_close, y_close, 100, 20, "Close", JavaWrapper.methodToJava(close))
     screen.addButton(x_close, y_cls_lst, 100, 20, "Clear Choices", JavaWrapper.methodToJava(cls_lst))
-    # ALL LOOT DROPS AVAILABLE FROM CHESTS ARE IN LOOPS BELOW
-    for index, value in enumerate(white_lst[:22]):  # Max Rows on Screen == 22
-        index = 20 + index * 20
-        screen.addItem(140, index, value, screen)
-        screen.addButton(160, index + 2, 10, 10, "", JavaWrapper.methodToJava(lambda btn, ctx, str=value: btn.setLabel("X") and print_str(str)))
-    for index, value in enumerate(white_lst[22:44]):  # Max Rows on Screen == 22
-        index = 20 + index * 20
-        screen.addItem(180, index, value, screen)
-        screen.addButton(200, index + 2, 10, 10, "",
-                         JavaWrapper.methodToJava(lambda btn, ctx, str=value: btn.setLabel("X") and print_str(str)))
-    for index, value in enumerate(white_lst[44:66]):  # Max Rows on Screen == 22
-        index = 20 + index * 20
-        screen.addItem(220, index, value, screen)
-        screen.addButton(240, index + 2, 10, 10, "",
-                         JavaWrapper.methodToJava(lambda btn, ctx, str=value: btn.setLabel("X") and print_str(str)))
-    for index, value in enumerate(white_lst[66:88]):  # Max Rows on Screen == 22
-        index = 20 + index * 20
-        screen.addItem(260, index, value, screen)
-        screen.addButton(280, index + 2, 10, 10, "",
-                         JavaWrapper.methodToJava(lambda btn, ctx, str=value: btn.setLabel("X") and print_str(str)))
-    for index, value in enumerate(white_lst[88:110]):  # Max Rows on Screen == 22
-        index = 20 + index * 20
-        screen.addItem(300, index, value, screen)
-        screen.addButton(320, index + 2, 10, 10, "",
-                         JavaWrapper.methodToJava(lambda btn, ctx, str=value: btn.setLabel("X") and print_str(str)))
-    for index, value in enumerate(white_lst[110:132]):  # Max Rows on Screen == 22
-        index = 20 + index * 20
-        screen.addItem(340, index, value, screen)
-        screen.addButton(360, index + 2, 10, 10, "",
-                         JavaWrapper.methodToJava(lambda btn, ctx, str=value: btn.setLabel("X") and print_str(str)))
-    for index, value in enumerate(white_lst[132:150]):  # Max Rows on Screen == 22
-        index = 20 + index * 20
-        screen.addItem(380, index, value, screen)
-        screen.addButton(400, index + 2, 10, 10, "",
-                         JavaWrapper.methodToJava(lambda btn, ctx, str=value: btn.setLabel("X") and print_str(str)))
-    for index, value in enumerate(white_lst[150:168]):  # Max Rows on Screen == 22
-        index = 20 + index * 20
-        screen.addItem(420, index, value, screen)
-        screen.addButton(440, index + 2, 10, 10, "",
-                         JavaWrapper.methodToJava(lambda btn, ctx, str=value: btn.setLabel("X") and print_str(str)))
-    for index, value in enumerate(white_lst[168:179]):  # Max Rows on Screen == 22
-        index = 20 + index * 20
-        screen.addItem(460, index, value, screen)
-        screen.addButton(480, index + 2, 10, 10, "",
-                         JavaWrapper.methodToJava(lambda btn, ctx, str=value: btn.setLabel("X") and print_str(str)))
-    # EXTRAS
-    # for index, value in enumerate(white_lst[186:208]):  # Max Rows on Screen == 22
-    #     index = 20 + index * 20
-    #     screen.addItem(500, index, value, screen)
-    #     screen.addButton(520, index + 2, 10, 10, "",
-    #                      JavaWrapper.methodToJava(lambda btn, ctx, str=value: btn.setLabel("X") and print_str(str)))
-    # for index, value in enumerate(white_lst[208:230]):  # Max Rows on Screen == 22
-    #     index = 20 + index * 20
-    #     screen.addItem(540, index, value, screen)
-    #     screen.addButton(560, index + 2, 10, 10, "",
-    #                      JavaWrapper.methodToJava(lambda btn, ctx, str=value: btn.setLabel("X") and print_str(str)))
+    # ALL LOOT DROPS AVAILABLE FROM CHESTS ARE IN LOOP BELOW
+    iterations_n = len(white_lst)
+    for iter_i in range(iterations_n):
+        for index, value in enumerate(white_lst[22 * iter_i:22 * (iter_i + 1)]):
+            index = 20 + index * 20
+            screen.addItem(140 + 40*iter_i, index, value, screen)
+            screen.addButton(160 +40*iter_i, index + 2, 10, 10, "", JavaWrapper.methodToJava(lambda btn, ctx, str=value: btn.setLabel("X") and print_str(str)))
 
 
 def chest_close_on(ctx):
@@ -310,7 +261,6 @@ def on_click(ctx, btn):
         Chat.log(chest_slots)
         Chat.log("on_click def")
     for i in range(chest_slots):
-        i = + i
         if Player.openInventory().getSlot(i).getItemId() != "minecraft:air":
             if Player.openInventory().getSlot(i).getItemId() in active_lst:
                 Player.openInventory().quickAll(i)
