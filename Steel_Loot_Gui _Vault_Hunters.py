@@ -13,7 +13,7 @@ import ast
 
 ver = "V1.7"
 # == DEBUG ==
-debug = True
+debug = False
 # == DEBUG ==
 # If Quark is installed Set Quark to True == Sorts The Inventory
 quark = True
