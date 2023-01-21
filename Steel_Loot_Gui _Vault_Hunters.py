@@ -3,7 +3,7 @@
 # You can create white_list with items_to_list.py or use /steal add "minecraft id"
 # Commands:
 # /steal [add,save,gui,chest_close,check_whitelist]
-# V1.7 21.01.23 21:14
+# V1.7 21.01.23 21:29
 # Created by SmokyAce
 if __name__ == "":
     from JsMacrosAC import *
@@ -19,6 +19,9 @@ debug = False
 quark = True
 # Init Overlay
 startup_overlay = True
+# == CONFIG PATH == YOU MUST CHANGE THIS
+config_path = "C:/Users/Julian/PycharmProjects/Minecraft jsMacros/Linked/config_whitelist.txt"
+# == CONFIG PATH ==
 
 Chat.unregisterCommand("steal")  # Unregisters Old Command
 
@@ -31,7 +34,7 @@ active_lst = []
 btn_clicked_one = 0
 btn_clicked_two = 0
 chest_close = False  # Closes chest after Loot Has Been Stolen USE /steal ChestClose [on/off]
-screen = Hud.createScreen("Whitelist WIP", False)
+screen = Hud.createScreen("", False)
 
 if startup_overlay:
     overlay = Hud.createDraw2D()
@@ -46,7 +49,7 @@ if startup_overlay:
     Time.sleep(2500)
     Hud.unregisterDraw2D(overlay)
     Hud.clearDraw2Ds()
-    Time.sleep(1000)
+    Time.sleep(200)
 else:
     Chat.log(Chat.createTextBuilder().append("[").withColor(0x7)
              .append("SmokyAce").withColor(0x6)
@@ -109,7 +112,8 @@ def cls_lst(a1, a2):
     if debug:
         Chat.log("click_lst from def cls_lst")
         Chat.log(click_lst)
-    Chat.log("Cleared Marked Items")
+    Chat.log(Chat.createTextBuilder().append("Cleared: ").withColor(0x6).append("Marked Items").withColor(
+        0x7).build())
     screen.reload()
 
 
@@ -117,7 +121,8 @@ def set_active_lst(a3, a4):
     global active_lst
     active_lst.clear()
     active_lst = click_lst.copy()
-    Chat.log("Active List")
+    Chat.log(Chat.createTextBuilder().append("Active List: ").withColor(0x6).append("Set").withColor(
+        0x7).build())
     if debug:
         Chat.log("active_lst from set_active_lst")
         Chat.log(active_lst)
@@ -126,24 +131,27 @@ def set_active_lst(a3, a4):
 
 def cls_active_lst(a5, a6):
     active_lst.clear()
-    Chat.log("Cleared Whitelist")
+    Chat.log(Chat.createTextBuilder().append("Cleared: ").withColor(0x6).append("Whitelist").withColor(
+        0x7).build())
 
 
 def save_lst(a7, a8):
-    with open(r'C:/Users/Julian/PycharmProjects/Minecraft jsMacros/Linked/config_whitelist.txt', 'w') as fp:
+    with open(config_path, 'w') as fp:
         fp.write(str(active_lst))
         fp.close()
-    Chat.log("Whitelist Saved")
+    Chat.log(Chat.createTextBuilder().append("Whitelist: ").withColor(0x6).append("Saved").withColor(
+        0x7).build())
 
 
 def load_lst(a9, a10):
     global active_lst
     try:
-        with open("C:/Users/Julian/PycharmProjects/Minecraft jsMacros/Linked/config_whitelist.txt") as f:
+        with open(config_path) as f:
             saved_list_str = f.read()
             f.close()
             active_lst = ast.literal_eval(saved_list_str)
-        Chat.log("Loaded Whitelist")
+        Chat.log(Chat.createTextBuilder().append("Loaded: ").withColor(0x6).append("Whitelist").withColor(
+            0x7).build())
         if debug:
             Chat.log(active_lst)
         return active_lst
@@ -155,7 +163,7 @@ def add_all_to_lst(a12, a13):
     global active_lst
     active_lst.clear()
     active_lst = white_lst.copy()
-    Chat.log("Added All items To Whitelist")
+    Chat.log(Chat.createTextBuilder().append("Added: ").withColor(0x6).append("All items To Whitelist").withColor(0x7).build())
     if debug:
         Chat.log("active_lst from set_active_lst")
         Chat.log(active_lst)
@@ -173,10 +181,10 @@ def items_to_list_from_cmd(ctx):
 
 
 def save_cmd(ctx):
-    with open(r'C:/Users/Julian/PycharmProjects/Minecraft jsMacros/Linked/config_whitelist.txt', 'w') as fp:
+    with open(config_path, 'w') as fp:
         fp.write(str(active_lst))
         fp.close()
-    Chat.log("Whitelist Saved")
+    Chat.log(Chat.createTextBuilder().append("Whitelist: ").withColor(0x6).append("Saved").withColor(0x7).build())
 
 
 def screen_init(screen):
@@ -195,11 +203,11 @@ def screen_init(screen):
     screen.addButton(x_close, y_cls_lst, 100, 20, "Clear Choices", JavaWrapper.methodToJava(cls_lst))
     # ALL LOOT DROPS AVAILABLE FROM CHESTS ARE IN LOOP BELOW
     iterations_n = len(white_lst)
-    for iter_i in range(iterations_n):
-        for index, value in enumerate(white_lst[22 * iter_i:22 * (iter_i + 1)]):
+    for iter_i in range(lst):
+        for index, value in enumerate(white_lst[18 * iter_i:18 * (iter_i + 1)]):
             index = 20 + index * 20
             screen.addItem(140 + 40*iter_i, index, value, screen)
-            screen.addButton(160 +40*iter_i, index + 2, 10, 10, "", JavaWrapper.methodToJava(lambda btn, ctx, str=value: btn.setLabel("X") and print_str(str)))
+            screen.addButton(160 + 40*iter_i, index + 2, 10, 10, "", JavaWrapper.methodToJava(lambda btn, ctx, str=value: btn.setLabel("X") and print_str(str)))
 
 
 def chest_close_on(ctx):
