@@ -2,8 +2,8 @@
 # This is steel_loot combined with whitelist
 # You can create white_list with items_to_list.py or use /steal add "minecraft id"
 # Commands:
-# /steal [add,save,gui,chest_close,check_whitelist]
-# V1.7 21.01.23 21:29
+# /steal [add,del,save,gui,chest_close,check_whitelist,load_whitelist]
+# V1.8 25.01.23 23:20
 # Created by SmokyAce
 if __name__ == "":
     from JsMacrosAC import *
@@ -11,7 +11,7 @@ if __name__ == "":
 import ast
 
 
-ver = "V1.7"
+ver = "V1.8"
 # == DEBUG ==
 debug = False
 # == DEBUG ==
@@ -187,6 +187,17 @@ def save_cmd(ctx):
     Chat.log(Chat.createTextBuilder().append("Whitelist: ").withColor(0x6).append("Saved").withColor(0x7).build())
 
 
+def del_from_wl(ctx):
+    global active_lst
+    del_item_input = ctx.getArg("typedItem").getItemId()
+    if del_item_input in active_lst:
+        active_lst.remove(del_item_input)
+        Chat.log(Chat.createTextBuilder().append("Item Removed From: ").withColor(0x6).append("White list").withColor(0x7).build())
+        return active_lst
+    else:
+        Chat.log(Chat.createTextBuilder().append("Item Not In: ").withColor(0x6).append("White list").withColor(0x7).build())
+
+
 def screen_init(screen):
     cen_x = int(Hud.getOpenScreen().getWidth() * 0.5)
     cen_y = int(Hud.getOpenScreen().getHeight() * 0.5)
@@ -202,7 +213,6 @@ def screen_init(screen):
     screen.addButton(x_close, y_close, 100, 20, "Close", JavaWrapper.methodToJava(close))
     screen.addButton(x_close, y_cls_lst, 100, 20, "Clear Choices", JavaWrapper.methodToJava(cls_lst))
     # ALL LOOT DROPS AVAILABLE FROM CHESTS ARE IN LOOP BELOW
-    iterations_n = len(white_lst)
     for iter_i in range(lst):
         for index, value in enumerate(white_lst[18 * iter_i:18 * (iter_i + 1)]):
             index = 20 + index * 20
@@ -224,7 +234,7 @@ def chest_close_off(ctx):
     return chest_close
 
 
-#  ADD ITEMS TO WHITELIST WITH /addWL. Does Not Save The List
+#  COMMANDS ARE IN /steal [Options]. Does Not Save The List
 Chat.createCommandBuilder('steal')\
     .literalArg('add')\
         .itemArg('itemNameToGive')\
@@ -247,6 +257,13 @@ Chat.createCommandBuilder('steal')\
         .otherwise()\
     .literalArg('check_whitelist')\
         .executes(JavaWrapper.methodToJavaAsync(lambda check: Chat.log(Chat.createTextBuilder().append("Active Whitelist: ").withColor(0x6).append(active_lst).withColor(0x7).build())))\
+        .otherwise() \
+    .literalArg('load_whitelist') \
+        .executes(JavaWrapper.methodToJavaAsync(lambda mjau: load_lst(a9=None, a10=None)))\
+        .otherwise()\
+    .literalArg('del')\
+        .itemArg('typedItem') \
+            .executes(JavaWrapper.methodToJavaAsync(del_from_wl))\
 .register()
 
 vanilla_inventory_slots = 46
